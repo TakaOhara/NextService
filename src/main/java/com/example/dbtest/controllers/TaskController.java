@@ -1,11 +1,13 @@
 package com.example.dbtest.controllers;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dbtest.entity.Task;
+import com.example.dbtest.entity.UserInfo;
 import com.example.dbtest.service.TaskService;
 
 @Controller
@@ -31,12 +34,19 @@ public class TaskController {
 
     //INDEX
     @GetMapping
-    public String task(TaskForm taskForm, Model model) {
+    public String task(TaskForm taskForm, Model model,Principal principal) {
+    	
+    	String username;
+    	//認証情報の取得
+    	Authentication auth = (Authentication)principal;
+        UserInfo userInfo = (UserInfo)auth.getPrincipal();
+        username = userInfo.getUsername();
 
         taskForm.setNewTask(true);
         List<Task> list = taskService.findAll();
         
         //これはrequest.setAttributeを呼び出してる？
+        model.addAttribute("username", username);
         model.addAttribute("list", list);
         model.addAttribute("title", "タスク一覧");
 

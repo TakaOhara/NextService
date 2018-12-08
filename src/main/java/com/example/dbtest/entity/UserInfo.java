@@ -2,13 +2,18 @@ package com.example.dbtest.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -24,6 +29,8 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name="user_info")
+@ToString(of = "id")
+@EqualsAndHashCode(of = "id")
 public class UserInfo implements UserDetails {
 	
 	/**
@@ -32,7 +39,12 @@ public class UserInfo implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+	
 	//@GeneratedValue
+	@Column(nullable = false)
 	private String username;
 	
 	@Column(nullable = false)
@@ -79,6 +91,14 @@ public class UserInfo implements UserDetails {
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public UserInfo(String username, String email, String password, Boolean enabled, String authority) {
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.enabled = enabled;
+		this.authority = authority;
 	}
 
 

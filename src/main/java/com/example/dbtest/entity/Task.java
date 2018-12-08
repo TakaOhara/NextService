@@ -29,6 +29,14 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+    
+    @Column(name= "user_info_id")
+    private int userInfoId;
+    
+    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "user_info_id",
+            insertable = false, updatable = false)//このnameはTask内のフィールドと重複してはならない
+    private UserInfo userInfo;
 
     @Column(name = "type_id")//tasksテーブルの中の外部キーになっているカラムを指定　相手先は外部結合から自動的に探しに行く
     private int typeId;
