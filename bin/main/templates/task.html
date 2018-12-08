@@ -162,6 +162,7 @@
             <table class="table table-striped table-sm">
               <thead>
                 <tr>
+                  <th>ユーザー</th>
                   <th>タイトル</th>
                   <th>期日</th>
                   <th>タイプ</th>
@@ -172,14 +173,15 @@
               </thead>
               <tbody>
                 <tr th:each="obj : ${list}">
+                　<td th:text=${obj.userInfo.username}>dolor</td>
                   <td th:text=${obj.title}>Lorem</td>
                   <td th:text=${obj.deadline}>ipsum</td>
                   <td th:text=${obj.taskType.type}>dolor</td>
                   <td th:text=${obj.taskType.comment}>dolor</td>
-                  <td><a type="button" class="btn btn-outline-success" th:href="@{/task/{id}(id=${obj.id})}">編集</a></td>
+                  <td><a type="button" th:class="'btn btn-outline-success ' + ((${obj.userInfo.username} != ${username})? 'disabled' : '')" th:href="@{/task/{id}(id=${obj.id})}">編集</a></td>
                   <td>
                     <form method="POST" th:action="@{/task/delete/{id}(id=${obj.id})}">
-					<button type="submit" class="btn btn-outline-danger">削除</button>
+					<button type="submit" th:class="'btn btn-outline-danger ' + ((${obj.userInfo.username} != ${username})? 'disabled' : '')">削除</button>
 					</form>
 				  </td>
                 </tr>
