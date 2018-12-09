@@ -36,20 +36,20 @@ public class TaskController {
     @GetMapping
     public String task(TaskForm taskForm, Model model, Principal principal) {//spring security principal
     	
-    	int id;
-    	String username;
-    	//認証情報の取得
-    	Authentication auth = (Authentication)principal;
-        UserInfo userInfo = (UserInfo)auth.getPrincipal();
-        id = userInfo.getId();
-        username = userInfo.getUsername();
+//    	int id;
+//    	String username;
+//    	//認証情報の取得
+//    	Authentication auth = (Authentication)principal;
+//        UserInfo userInfo = (UserInfo)auth.getPrincipal();
+//        id = userInfo.getId();
+//        username = userInfo.getUsername();
 
         taskForm.setNewTask(true);
         List<Task> list = taskService.findAll();
         
         //これはrequest.setAttributeを呼び出してる？
-        model.addAttribute("id", id);
-        model.addAttribute("username", username);
+//        model.addAttribute("id", id);
+//        model.addAttribute("username", username);
         model.addAttribute("list", list);
         model.addAttribute("title", "タスク一覧");
 
