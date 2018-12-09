@@ -178,10 +178,10 @@
                   <td th:text=${obj.deadline}>ipsum</td>
                   <td th:text=${obj.taskType.type}>dolor</td>
                   <td th:text=${obj.taskType.comment}>dolor</td>
-                  <td><a type="button" th:class="'btn btn-outline-success ' + ((${obj.userInfo.username} != ${username})? 'disabled' : '')" th:href="@{/task/{id}(id=${obj.id})}">編集</a></td>
+                  <td><a type="button" th:class="'btn btn-outline-success ' + ((${obj.userInfo.id} != ${id})? 'disabled' : '')" th:href="@{/task/{id}(id=${obj.id})}">編集</a></td>
                   <td>
                     <form method="POST" th:action="@{/task/delete/{id}(id=${obj.id})}">
-					<button type="submit" th:class="'btn btn-outline-danger ' + ((${obj.userInfo.username} != ${username})? 'disabled' : '')">削除</button>
+					<button type="submit" th:class="'btn btn-outline-danger ' + ((${obj.userInfo.id} != ${id})? 'disabled' : '')">削除</button>
 					</form>
 				  </td>
                 </tr>
