@@ -34,7 +34,7 @@ public class TaskController {
 
     //INDEX
     @GetMapping
-    public String task(TaskForm taskForm, Model model,Principal principal) {
+    public String task(TaskForm taskForm, Model model, Principal principal) {//spring security principal
     	
     	int id;
     	String username;
