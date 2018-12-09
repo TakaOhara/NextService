@@ -25,21 +25,22 @@ public class CustomControllerAdvice {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomControllerAdvice.class);
 
-    @InitBinder
-    public void initBinder(WebDataBinder dataBinder) {
-        // WebDataBinderのメソッドを呼び出してカスタマイズする
-        dataBinder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-    }
+//    @InitBinder
+//    public void initBinder(WebDataBinder dataBinder) {
+//        // WebDataBinderのメソッドを呼び出してカスタマイズする
+//        dataBinder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+//    }
 
     @ModelAttribute
     public void addSomeObjects( Model model, Principal principal) {
+    	
     	int id = 0;
     	String username = null;
-    	UserInfo userInfo;
+    	
     	//認証情報の取得
-    	if(principal !=  null) {
+    	if(principal !=  null) {//認証前はnull
     	Authentication auth = (Authentication)principal;
-        userInfo = (UserInfo)auth.getPrincipal();
+        UserInfo userInfo = (UserInfo)auth.getPrincipal();
         id = userInfo.getId();
         username = userInfo.getUsername();
     	}
