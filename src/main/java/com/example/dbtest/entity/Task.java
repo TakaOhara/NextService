@@ -31,7 +31,7 @@ public class Task {
     private int id;
     
     @Column(name= "user_info_id")
-    private int userInfoId;
+    private int userId;
     
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "user_info_id",
@@ -57,16 +57,19 @@ public class Task {
     @JoinColumn(name = "deadline")
     private LocalDateTime deadline;
     
-
-    public Task(int typeId, String title, String detail, LocalDateTime deadline) {
+    //新規insertで使用
+    public Task(int userId, int typeId, String title, String detail, LocalDateTime deadline) {
+    	this.userId = userId;
         this.typeId = typeId;
         this.title = title;
         this.detail = detail;
         this.deadline = deadline;
     }
 
-    public Task(int id, int typeId, String title, String detail, LocalDateTime deadline) {
+    //updateで使用
+    public Task(int id, int userId, int typeId, String title, String detail, LocalDateTime deadline) {
         this.id = id;
+        this.userId = userId;
         this.typeId = typeId;
         this.title = title;
         this.detail = detail;

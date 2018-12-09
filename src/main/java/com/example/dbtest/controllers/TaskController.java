@@ -34,22 +34,12 @@ public class TaskController {
 
     //INDEX
     @GetMapping
-    public String task(TaskForm taskForm, Model model, Principal principal) {//spring security principal
+    public String task(TaskForm taskForm, Model model) {
     	
-//    	int id;
-//    	String username;
-//    	//認証情報の取得
-//    	Authentication auth = (Authentication)principal;
-//        UserInfo userInfo = (UserInfo)auth.getPrincipal();
-//        id = userInfo.getId();
-//        username = userInfo.getUsername();
 
         taskForm.setNewTask(true);
         List<Task> list = taskService.findAll();
         
-        //これはrequest.setAttributeを呼び出してる？
-//        model.addAttribute("id", id);
-//        model.addAttribute("username", username);
         model.addAttribute("list", list);
         model.addAttribute("title", "タスク一覧");
 
@@ -61,9 +51,17 @@ public class TaskController {
     public String insert(
     	@Valid @ModelAttribute TaskForm taskForm, //ヴァリデーションはフォームクラスに対して行う
         BindingResult result,
-        Model model) {
+        Model model,
+        Principal principal) {
+    	
+    	int userId = 0;
+    	if(principal !=  null) {//認証前はnull
+        	Authentication auth = (Authentication)principal;
+            UserInfo userInfo = (UserInfo)auth.getPrincipal();
+            userId = userInfo.getId();
+        }
 
-        Task task = makeTask(taskForm);
+        Task task = makeTask(userId, taskForm);
         //redirect、失敗したらそのままHTML表示
         if (!result.hasErrors()) {
             taskService.save(task);
@@ -113,7 +111,15 @@ public class TaskController {
     	@PathVariable Integer id, 
     	@Valid @ModelAttribute TaskForm taskForm,
     	BindingResult result,
-    	Model model) {
+    	Model model,
+        Principal principal) {
+    	
+    	int userId = 0;
+    	if(principal !=  null) {//認証前はnull
+        	Authentication auth = (Authentication)principal;
+            UserInfo userInfo = (UserInfo)auth.getPrincipal();
+            userId = userInfo.getId();
+        }
     	
     	//isNewTaskにfalseが代入される
         Optional<TaskForm> form = taskService.getTaskForm(id);
@@ -122,7 +128,7 @@ public class TaskController {
             return "redirect:/task";
         }
     	
-    	Task task = makeTask(id, taskForm);
+    	Task task = makeTask(id, userId, taskForm);
     	
         if (!result.hasErrors()) {
         	taskService.save(task);
@@ -151,12 +157,12 @@ public class TaskController {
         return "redirect:/task";
     }
 
-    private Task makeTask(TaskForm taskForm) {
-        return new Task(taskForm.getTypeId(), taskForm.getTitle(), taskForm.getDetail(), taskForm.getDeadline());
+    private Task makeTask(int userId, TaskForm taskForm) {
+        return new Task(userId, taskForm.getTypeId(), taskForm.getTitle(), taskForm.getDetail(), taskForm.getDeadline());
     }
 
-    private Task makeTask(int id, TaskForm taskForm) {
-        return new Task(id, taskForm.getTypeId(), taskForm.getTitle(), taskForm.getDetail(), taskForm.getDeadline());
+    private Task makeTask(int taskId, int userId, TaskForm taskForm) {
+        return new Task(taskId, userId, taskForm.getTypeId(), taskForm.getTitle(), taskForm.getDetail(), taskForm.getDeadline());
     }
 
 
