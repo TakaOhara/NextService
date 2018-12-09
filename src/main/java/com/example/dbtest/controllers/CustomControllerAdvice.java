@@ -23,7 +23,7 @@ import com.example.dbtest.entity.UserInfo;
 @ControllerAdvice // クラスレベルに@ControllerAdviceを指定する
 public class CustomControllerAdvice {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomControllerAdvice.class);
+//    private static final Logger logger = LoggerFactory.getLogger(CustomControllerAdvice.class);
 
 //    @InitBinder
 //    public void initBinder(WebDataBinder dataBinder) {
