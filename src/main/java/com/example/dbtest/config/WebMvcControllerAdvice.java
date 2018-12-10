@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.example.dbtest.entity.UserInfo;
+import com.example.dbtest.domain.entity.UserInfo;
 
 /**
  * 全てのControllerで共通処理を定義

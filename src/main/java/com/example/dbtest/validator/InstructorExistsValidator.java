@@ -1,12 +1,14 @@
 package com.example.dbtest.validator;
 
-import com.example.dbtest.entity.Instructor;
-import com.example.dbtest.repositories.InstructorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.dbtest.domain.entity.Instructor;
+import com.example.dbtest.domain.repositories.InstructorRepository;
 
 public class InstructorExistsValidator implements ConstraintValidator<InstructorExists, String> {
 

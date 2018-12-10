@@ -2,8 +2,6 @@ package com.example.dbtest.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +14,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.example.dbtest.controllers.TaskForm;
-import com.example.dbtest.entity.Task;
+import com.example.dbtest.domain.entity.Task;
+import com.example.dbtest.domain.service.TaskService;
 
 /**
  *

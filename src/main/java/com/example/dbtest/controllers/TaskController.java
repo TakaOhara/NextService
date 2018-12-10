@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.dbtest.entity.Task;
-import com.example.dbtest.entity.UserInfo;
-import com.example.dbtest.service.TaskService;
+import com.example.dbtest.domain.entity.Task;
+import com.example.dbtest.domain.entity.UserInfo;
+import com.example.dbtest.domain.service.TaskService;
 
 @Controller
 @RequestMapping("/task")

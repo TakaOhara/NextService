@@ -1,11 +1,12 @@
 package com.example.dbtest.validator;
 
-import com.example.dbtest.entity.UserInfo;
-import com.example.dbtest.repositories.UserInfoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.dbtest.domain.entity.UserInfo;
+import com.example.dbtest.domain.repositories.UserInfoRepository;
 
 public class UserInfoExistsValidator implements ConstraintValidator<UserInfoExists, String> {
 

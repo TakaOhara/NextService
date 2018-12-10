@@ -1,16 +1,21 @@
 package com.example.dbtest.controllers;
 
-import com.example.dbtest.entity.UserInfo;
-import com.example.dbtest.service.UserInfoService;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
+import com.example.dbtest.domain.entity.UserInfo;
+import com.example.dbtest.domain.service.UserInfoService;
 
 @Controller
 @RequestMapping("/register")

@@ -19,8 +19,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.dbtest.controllers.TaskForm;
-import com.example.dbtest.entity.Task;
-import com.example.dbtest.repositories.TaskRepository;
+import com.example.dbtest.domain.entity.Task;
+import com.example.dbtest.domain.repositories.TaskRepository;
+import com.example.dbtest.domain.service.TaskServiceImpl;
 
 @ExtendWith(MockitoExtension.class)//P385 RunWithとの違いJunit4
 @DisplayName("TaskServiceImplの単体テスト")
