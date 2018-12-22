@@ -15,5 +15,6 @@ spring:
   #    jndi-name: java:hoge/fuga # JNDIを使用する場合
   jpa:
     show-sql: true
+    open-in-view: false
   flyway:
     enabled: false #

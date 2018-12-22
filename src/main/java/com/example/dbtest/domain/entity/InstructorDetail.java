@@ -16,7 +16,6 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "instructor_detail")
-// TODO lombokを使用
 @Data
 @NoArgsConstructor
 @ToString(of = "id")
