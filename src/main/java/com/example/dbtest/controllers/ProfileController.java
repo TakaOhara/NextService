@@ -48,9 +48,9 @@ public class ProfileController {
         profileForm.setNewProfile(true);
         List<Profile> list = profileService.findAll();
         
-        System.out.println(profileService.existsByUserInfoId(userInfoId));
+        Optional<ProfileForm> form = profileService.getProfileForm(userInfoId);
 
-        
+        model.addAttribute("profileForm", form.get());
         model.addAttribute("existsProf", profileService.existsByUserInfoId(userInfoId));
         model.addAttribute("list", list);
         model.addAttribute("title", "プロフィール一覧");
@@ -105,34 +105,34 @@ public class ProfileController {
     }
 
     
-    //Before UPDATE
-    @GetMapping("/update")//編集ページ
-    public String showUpdate(
-    	ProfileForm profileForm,
-        Model model,
-        Principal principal) {
-    	
-    	int userId = 0;
-    	if(principal !=  null) {//認証前はnull
-        	Authentication auth = (Authentication)principal;
-            UserInfo userInfo = (UserInfo)auth.getPrincipal();
-            userId = userInfo.getId();
-        }
-
-        Optional<ProfileForm> form = profileService.getProfileForm(userId);
-
-        if (!form.isPresent()) {
-            return "redirect:/profile";
-        }
-
-        model.addAttribute("existsProf", true);
-        model.addAttribute("profileForm", form.get());
-        List<Profile> list = profileService.findAll();
-        model.addAttribute("list", list);
-        model.addAttribute("title", "更新フォーム");
-
-        return "profile";
-    }
+//    //Before UPDATE
+//    @GetMapping("/update")//編集ページ
+//    public String showUpdate(
+//    	ProfileForm profileForm,
+//        Model model,
+//        Principal principal) {
+//    	
+//    	int userId = 0;
+//    	if(principal !=  null) {//認証前はnull
+//        	Authentication auth = (Authentication)principal;
+//            UserInfo userInfo = (UserInfo)auth.getPrincipal();
+//            userId = userInfo.getId();
+//        }
+//
+//        Optional<ProfileForm> form = profileService.getProfileForm(userId);
+//
+//        if (!form.isPresent()) {
+//            return "redirect:/profile";
+//        }
+//
+//        model.addAttribute("existsProf", true);
+//        model.addAttribute("profileForm", form.get());
+//        List<Profile> list = profileService.findAll();
+//        model.addAttribute("list", list);
+//        model.addAttribute("title", "更新フォーム");
+//
+//        return "profile";
+//    }
     
     /**
      * UPDATE

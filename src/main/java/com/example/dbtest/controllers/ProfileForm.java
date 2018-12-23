@@ -21,6 +21,8 @@ import lombok.NoArgsConstructor;
 public class ProfileForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    private int id;
 
     @Digits(integer = 1, fraction = 0, message = "問題が発生しました")
     private int locationId;

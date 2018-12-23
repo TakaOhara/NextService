@@ -40,7 +40,7 @@ public class ProfileServiceImpl implements ProfileService {
 		}
         // mapを使ってスマートに記述
 		return profile.map(prof ->//1ラムダ式　profは保持する実際の値
-                new ProfileForm(prof.getLocationId(), prof.getProfileName(), prof.getHobby(), false));
+                new ProfileForm(prof.getId(), prof.getLocationId(), prof.getProfileName(), prof.getHobby(), false));
 	}
 
 	@Override
