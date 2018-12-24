@@ -39,7 +39,7 @@ public class TaskServiceImpl implements TaskService {
 		}
         // mapを使ってスマートに記述
 		return task.map(tsk ->//1ラムダ式　taskは保持する実際の値
-                new TaskForm(tsk.getTypeId(), tsk.getTitle(), tsk.getDetail(), tsk.getDeadline(), false));
+                new TaskForm(tsk.getId(), tsk.getTypeId(), tsk.getTitle(), tsk.getDetail(), tsk.getDeadline(), false));
 	}
 
 	@Override

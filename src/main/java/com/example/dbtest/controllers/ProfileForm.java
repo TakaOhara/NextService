@@ -36,5 +36,6 @@ public class ProfileForm implements Serializable {
     private String hobby;
 
     public boolean isNewProfile;
+    
 
 }

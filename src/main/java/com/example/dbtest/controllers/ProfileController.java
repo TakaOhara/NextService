@@ -38,14 +38,22 @@ public class ProfileController {
     public String profile(ProfileForm profileForm, 
     	Model model,
     	Principal principal) {
-    		int userInfoId = 0;
-    		if(principal !=  null) {//認証前はnull
-        	Authentication auth = (Authentication)principal;
-            UserInfo userInfo = (UserInfo)auth.getPrincipal();
-            userInfoId = userInfo.getId();
-        }
+    	
+    	int userInfoId = 0;
+    	if(principal !=  null) {//認証前はnull
+        Authentication auth = (Authentication)principal;
+        UserInfo userInfo = (UserInfo)auth.getPrincipal();
+        userInfoId = userInfo.getId();
+    	}
 
-        profileForm.setNewProfile(true);
+    	if(profileService.existsByUserInfoId(userInfoId)) {
+    		profileForm.setNewProfile(false);
+    		model.addAttribute("title", "プロフィール編集");
+    	}else {
+    		profileForm.setNewProfile(true);
+    		model.addAttribute("title", "プロフィール新規登録");
+    	}
+    	
         List<Profile> list = profileService.findAll();
         
         Optional<ProfileForm> form = profileService.getProfileForm(userInfoId);
@@ -53,29 +61,13 @@ public class ProfileController {
         model.addAttribute("profileForm", form.get());
         model.addAttribute("existsProf", profileService.existsByUserInfoId(userInfoId));
         model.addAttribute("list", list);
-        model.addAttribute("title", "プロフィール一覧");
 
         return "profile";
     }
     
-    @GetMapping("/test")
-    public String test(Principal principal) {
-    	int userInfoId = 0;
-    	if(principal !=  null) {//認証前はnull
-        	Authentication auth = (Authentication)principal;
-            UserInfo userInfo = (UserInfo)auth.getPrincipal();
-            userInfoId = userInfo.getId();
-        }
-    	
-    	Profile profile = new Profile( userInfoId, 1, "ohara", "jogging",
-    			LocalDateTime.now());
-    	profileService.save(profile);
-    	System.exit(0);
-    	return null;
-    }
 
     //INSERT
-    @PostMapping
+    @PostMapping(params = "new")
     public String insert(
     	@Valid @ModelAttribute ProfileForm profileForm, //ヴァリデーションはフォームクラスに対して行う
         BindingResult result,
@@ -89,7 +81,7 @@ public class ProfileController {
             userId = userInfo.getId();
         }
 
-        Profile profile = makeProfile(userId, profileForm);
+        Profile profile = makeNewProfile(userId, profileForm);
         //redirect、失敗したらそのままHTML表示
         if (!result.hasErrors()) {
             profileService.save(profile);
@@ -105,35 +97,6 @@ public class ProfileController {
     }
 
     
-//    //Before UPDATE
-//    @GetMapping("/update")//編集ページ
-//    public String showUpdate(
-//    	ProfileForm profileForm,
-//        Model model,
-//        Principal principal) {
-//    	
-//    	int userId = 0;
-//    	if(principal !=  null) {//認証前はnull
-//        	Authentication auth = (Authentication)principal;
-//            UserInfo userInfo = (UserInfo)auth.getPrincipal();
-//            userId = userInfo.getId();
-//        }
-//
-//        Optional<ProfileForm> form = profileService.getProfileForm(userId);
-//
-//        if (!form.isPresent()) {
-//            return "redirect:/profile";
-//        }
-//
-//        model.addAttribute("existsProf", true);
-//        model.addAttribute("profileForm", form.get());
-//        List<Profile> list = profileService.findAll();
-//        model.addAttribute("list", list);
-//        model.addAttribute("title", "更新フォーム");
-//
-//        return "profile";
-//    }
-    
     /**
      * UPDATE
      * @param id
@@ -141,40 +104,39 @@ public class ProfileController {
      * @param mav
      * @return
      */
-//    @PostMapping("/update/{id}")
-//    public String update(
-//    	@PathVariable Integer id, 
-//    	@Valid @ModelAttribute ProfileForm profileForm,
-//    	BindingResult result,
-//    	Model model,
-//        Principal principal) {
-//    	
-//    	int userId = 0;
-//    	if(principal !=  null) {//認証前はnull
-//        	Authentication auth = (Authentication)principal;
-//            UserInfo userInfo = (UserInfo)auth.getPrincipal();
-//            userId = userInfo.getId();
-//        }
-//    	
-//    	//isNewTaskにfalseが代入される
-//        Optional<ProfileForm> form = profileService.getProfileForm(id);
-//
-//        if (!form.isPresent()) {
-//            return "redirect:/profile";
-//        }
-//    	
-//    	Profile profile = makeProfile(id, userId, profileForm);
-//    	
-//        if (!result.hasErrors()) {
-//        	profileService.save(profile);
-//            return "redirect:/profile/" + id + "/?complete";
-//        } else {
-//            model.addAttribute("profileForm", profileForm);
-//            model.addAttribute("title", "タスク編集画面");
-//            return "profile";
-//        }
-//        
-//    }
+    @PostMapping(params = "edit")
+    public String update(
+    	@Valid @ModelAttribute ProfileForm profileForm,
+    	BindingResult result,
+    	Model model,
+        Principal principal) {
+    	
+    	int userInfoId = 0;
+    	if(principal !=  null) {//認証前はnull
+        	Authentication auth = (Authentication)principal;
+            UserInfo userInfo = (UserInfo)auth.getPrincipal();
+            userInfoId = userInfo.getId();
+        }
+    	
+    	//isNewTaskにfalseが代入される
+        Optional<ProfileForm> form = profileService.getProfileForm(userInfoId);
+
+        if (!form.isPresent()) {
+            return "redirect:/profile";
+        }
+    	
+    	Profile profile = makeProfile(userInfoId, profileForm);
+    	
+        if (!result.hasErrors()) {
+        	profileService.save(profile);
+            return "redirect:/profile/?complete";
+        } else {
+            model.addAttribute("profileForm", profileForm);
+            model.addAttribute("title", "タスク編集画面");
+            return "profile";
+        }
+        
+    }
 
     /**
      * DELETE
@@ -191,15 +153,15 @@ public class ProfileController {
         return "redirect:/profile";
     }
 
-    private Profile makeProfile(int userId, ProfileForm profileForm) {
+    private Profile makeNewProfile(int userId, ProfileForm profileForm) {
     	LocalDateTime d = LocalDateTime.now();
         return new Profile(userId, profileForm.getLocationId(), profileForm.getProfileName(), profileForm.getHobby(), d);
     }
 
-//    private Profile makeProfile(int id, int userId, ProfileForm profileForm) {//Update用
-//    	LocalDateTime d = LocalDateTime.now();
-//    	return new Profile(id, userId, profileForm.getLocationId(), profileForm.getProfileName(), profileForm.getHobby(), d);
-//    }
+    private Profile makeProfile(int userId, ProfileForm profileForm) {//Update用
+    	LocalDateTime d = LocalDateTime.now();
+    	return new Profile(profileForm.getId(), userId, profileForm.getLocationId(), profileForm.getProfileName(), profileForm.getHobby(), d);
+    }
 
 
 }

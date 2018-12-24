@@ -125,12 +125,11 @@
               </button>
             </div>
           </div>
-<div  th:unless="${existsProf}">
 	<div class="m-5">     
 		<div th:if="${param.complete}" class="alert alert-success" role="alert">
 		更新が完了しました。
 		</div>    
-		<form th:if="${existsProf}" method="POST" th:action="@{/profile}" th:object="${profileForm}">
+		<form method="POST" th:action="@{/profile}" th:object="${profileForm}">
 		  <div class="form-group">
 		    <label for="profileName">ニックネーム</label>
 		    <input type="text" name="profileName" class="form-control" id="profileName" th:value="*{profileName}">
@@ -139,12 +138,12 @@
 		  <div class="form-group">
 		    <label for="location">地域</label>
 		    <select name="locationId" class="form-control" id="location">
-		      <option value="1" th:selected="${locationId == 1}">A_area</option>
-		      <option value="2" th:selected="${locationId == 2}">B_area</option>
-		      <option value="3" th:selected="${locationId == 3}">C_area</option>
-		      <option value="4" th:selected="${locationId == 4}">D_area</option>
-		      <option value="5" th:selected="${locationId == 5}">E_area</option>
-		      <option value="6" th:selected="${locationId == 6}">F_area</option>
+		      <option value="1" th:selected="*{locationId == 1}">A_area</option>
+		      <option value="2" th:selected="*{locationId == 2}">B_area</option>
+		      <option value="3" th:selected="*{locationId == 3}">C_area</option>
+		      <option value="4" th:selected="*{locationId == 4}">D_area</option>
+		      <option value="5" th:selected="*{locationId == 5}">E_area</option>
+		      <option value="6" th:selected="*{locationId == 6}">F_area</option>
 		    </select>
 		    <div th:if="${#fields.hasErrors('locationId')}" th:errors="*{locationId}"></div>
 		  </div>
@@ -153,45 +152,15 @@
 		    <input type="text" name="hobby" class="form-control" id="hobby" th:value="*{hobby}">
 		    <div th:if="${#fields.hasErrors('hobby')}" th:errors="*{hobby}" class="text-danger"></div>
 		  </div>
-		  <button type="submit" class="btn btn-primary">Submit</button>
+		  <input th:unless="${profileForm.isNewProfile}" type="hidden" name="id" th:value="*{id}">
+		
+		  <button th:if="${profileForm.isNewProfile}" type="submit"  name="new" class="btn btn-primary">Submit</button>
+		  <button th:unless="${profileForm.isNewProfile}" type="submit"  name="edit" class="btn btn-primary">Submit</button>
+
 		</form>
 		<a href="#" th:href="@{/profile}">戻る</a>
 	</div>
 
-</div><!-- ここまでが新規登録の場合に表示される -->
-<div th:if="${existsProf}" >
-	<div class="m-5">     
-		<div th:if="${param.complete}" class="alert alert-success" role="alert">
-		更新が完了しました。
-		</div>    
-		<form method="POST" th:action="@{/profile/update/{id}(id=${profileId})}" th:object="${profileForm}">
-		  <div class="form-group">
-		    <label for="profileName">ニックネーム</label>
-		    <input type="text" name="profileName" class="form-control" id="profileName" th:value="*{profileName}">
-		    <div th:if="${#fields.hasErrors('profileName')}" th:errors="*{profileName}" class="text-danger"></div>
-		  </div>
-		  <div class="form-group">
-		    <label for="location">地域</label>
-		    <select name="locationId" class="form-control" id="location">
-		      <option value="1" th:selected="${locationId == 1}">A_area</option>
-		      <option value="2" th:selected="${locationId == 2}">B_area</option>
-		      <option value="3" th:selected="${locationId == 3}">C_area</option>
-		      <option value="4" th:selected="${locationId == 4}">D_area</option>
-		      <option value="5" th:selected="${locationId == 5}">E_area</option>
-		      <option value="6" th:selected="${locationId == 6}">F_area</option>
-		    </select>
-		    <div th:if="${#fields.hasErrors('locationId')}" th:errors="*{locationId}"></div>
-		  </div>
-		  <div class="form-group">
-		    <label for="hobby">趣味</label>
-		    <input type="text" name="hobby" class="form-control" id="hobby" th:value="*{hobby}">
-		    <div th:if="${#fields.hasErrors('hobby')}" th:errors="*{hobby}" class="text-danger"></div>
-		  </div>
-		  <button type="submit" class="btn btn-primary">Submit</button>
-		</form>
-		<a href="#" th:href="@{/profile}">戻る</a>
-	</div>
-</div><!-- ここまでが更新の場合に表示される -->
     <h2>プロフィール一覧</h2>
 	<table class="table table-striped">
 	  <thead>

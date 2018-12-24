@@ -36,7 +36,6 @@ public class TaskController {
     @GetMapping
     public String task(TaskForm taskForm, Model model) {
     	
-
         taskForm.setNewTask(true);
         List<Task> list = taskService.findAll();
         
@@ -47,7 +46,7 @@ public class TaskController {
     }
 
     //INSERT
-    @PostMapping
+    @PostMapping(name="new")
     public String insert(
     	@Valid @ModelAttribute TaskForm taskForm, //ヴァリデーションはフォームクラスに対して行う
         BindingResult result,
@@ -65,7 +64,7 @@ public class TaskController {
         //redirect、失敗したらそのままHTML表示
         if (!result.hasErrors()) {
             taskService.save(task);
-            return "redirect:/task";
+            return "redirect:/task?complete";
         } else {
             taskForm.setNewTask(true);
             model.addAttribute("taskForm", taskForm);
@@ -90,7 +89,6 @@ public class TaskController {
             return "redirect:/task";
         }
 
-        model.addAttribute("taskId", id);
         model.addAttribute("taskForm", form.get());
         List<Task> list = taskService.findAll();
         model.addAttribute("list", list);
@@ -106,9 +104,8 @@ public class TaskController {
      * @param mav
      * @return
      */
-    @PostMapping("/update/{id}")
+    @PostMapping(params = "edit")
     public String update(
-    	@PathVariable Integer id, 
     	@Valid @ModelAttribute TaskForm taskForm,
     	BindingResult result,
     	Model model,
@@ -122,17 +119,17 @@ public class TaskController {
         }
     	
     	//isNewTaskにfalseが代入される
-        Optional<TaskForm> form = taskService.getTaskForm(id);
+        Optional<TaskForm> form = taskService.getTaskForm(taskForm.getId());
 
         if (!form.isPresent()) {
             return "redirect:/task";
         }
     	
-    	Task task = makeTask(id, userId, taskForm);
+    	Task task = makeTask(userId, taskForm);
     	
         if (!result.hasErrors()) {
         	taskService.save(task);
-            return "redirect:/task/" + id + "/?complete";
+            return "redirect:/task/" + taskForm.getId() + "?complete";
         } else {
             model.addAttribute("taskForm", taskForm);
             model.addAttribute("title", "タスク編集画面");
@@ -157,12 +154,12 @@ public class TaskController {
         return "redirect:/task";
     }
 
-    private Task makeTask(int userId, TaskForm taskForm) {
+    private Task makeNewTask(int userId, TaskForm taskForm) {
         return new Task(userId, taskForm.getTypeId(), taskForm.getTitle(), taskForm.getDetail(), taskForm.getDeadline());
     }
 
-    private Task makeTask(int taskId, int userId, TaskForm taskForm) {
-        return new Task(taskId, userId, taskForm.getTypeId(), taskForm.getTitle(), taskForm.getDetail(), taskForm.getDeadline());
+    private Task makeTask(int userId, TaskForm taskForm) {
+        return new Task(taskForm.getId(), userId, taskForm.getTypeId(), taskForm.getTitle(), taskForm.getDetail(), taskForm.getDeadline());
     }
 
 
