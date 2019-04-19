@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dbtest.domain.entity.Task;
-import com.example.dbtest.domain.entity.UserInfoOld;
+import com.example.dbtest.domain.entity.UserInfo;
 import com.example.dbtest.domain.service.TaskService;
 
 @Controller
@@ -56,7 +56,7 @@ public class TaskController {
     	int userId = 0;
     	if(principal !=  null) {//認証前はnull
         	Authentication auth = (Authentication)principal;
-            UserInfoOld userInfo = (UserInfoOld)auth.getPrincipal();
+            UserInfo userInfo = (UserInfo)auth.getPrincipal();
             userId = userInfo.getId();
         }
 
@@ -114,7 +114,7 @@ public class TaskController {
     	int userId = 0;
     	if(principal !=  null) {//認証前はnull
         	Authentication auth = (Authentication)principal;
-            UserInfoOld userInfo = (UserInfoOld)auth.getPrincipal();
+            UserInfo userInfo = (UserInfo)auth.getPrincipal();
             userId = userInfo.getId();
         }
     	
