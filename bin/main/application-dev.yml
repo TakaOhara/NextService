@@ -18,3 +18,10 @@ spring:
     open-in-view: false
   flyway:
     enabled: false #
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: 送信メールアドレス
+    password: メールパスワード
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.starttls.enable: true

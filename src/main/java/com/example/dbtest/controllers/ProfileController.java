@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dbtest.domain.entity.Profile;
-import com.example.dbtest.domain.entity.UserInfo;
+import com.example.dbtest.domain.entity.UserInfoOld;
 import com.example.dbtest.domain.service.ProfileService;
 
 @Controller
@@ -42,7 +42,7 @@ public class ProfileController {
     	int userInfoId = 0;
     	if(principal !=  null) {//認証前はnull
         Authentication auth = (Authentication)principal;
-        UserInfo userInfo = (UserInfo)auth.getPrincipal();
+        UserInfoOld userInfo = (UserInfoOld)auth.getPrincipal();
         userInfoId = userInfo.getId();
     	}
 
@@ -77,7 +77,7 @@ public class ProfileController {
     	int userId = 0;
     	if(principal !=  null) {//認証前はnull
         	Authentication auth = (Authentication)principal;
-            UserInfo userInfo = (UserInfo)auth.getPrincipal();
+            UserInfoOld userInfo = (UserInfoOld)auth.getPrincipal();
             userId = userInfo.getId();
         }
 
@@ -114,7 +114,7 @@ public class ProfileController {
     	int userInfoId = 0;
     	if(principal !=  null) {//認証前はnull
         	Authentication auth = (Authentication)principal;
-            UserInfo userInfo = (UserInfo)auth.getPrincipal();
+            UserInfoOld userInfo = (UserInfoOld)auth.getPrincipal();
             userInfoId = userInfo.getId();
         }
     	

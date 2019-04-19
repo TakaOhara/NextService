@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.example.dbtest.domain.entity.UserInfo;
+import com.example.dbtest.domain.entity.UserInfoOld;
 
 /**
  * 全てのControllerで共通処理を定義
@@ -33,7 +33,7 @@ public class WebMvcControllerAdvice {
     	//認証情報の取得
     	if(principal !=  null) {//認証前はnull
     	Authentication auth = (Authentication)principal;
-        UserInfo userInfo = (UserInfo)auth.getPrincipal();
+        UserInfoOld userInfo = (UserInfoOld)auth.getPrincipal();
         id = userInfo.getId();
         username = userInfo.getUsername();
     	}

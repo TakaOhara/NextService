@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -61,6 +59,9 @@ public class UserInfo implements UserDetails {
 	
 	@Column(nullable = false)
 	private String authority;
+
+	@Column
+	private String tempkey;
 	
 
 	@Override
@@ -92,16 +93,16 @@ public class UserInfo implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
+		return this.enabled;
 	}
 
-	public UserInfo(String username, String email, String password, Boolean enabled, String authority) {
+	public UserInfo(String username, String email, String password, Boolean enabled, String authority, String tempkey) {
 		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.enabled = enabled;
 		this.authority = authority;
+		this.tempkey = tempkey;
 	}
 
 
