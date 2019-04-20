@@ -20,11 +20,12 @@ public class UserInfoExistsValidator implements ConstraintValidator<UserInfoExis
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
-        if (value == null) return true;
-
-        UserInfo userInfo = userInfoRepository.findByEmail(value);
-
-        return userInfo == null;
+//        if (value == null) return true;
+//
+//        UserInfo userInfo = userInfoRepository.findByEmail(value);
+//
+//        return userInfo == null;
+    	return true;
 
     }
 }

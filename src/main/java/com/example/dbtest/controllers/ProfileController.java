@@ -42,7 +42,7 @@ public class ProfileController {
     	int userInfoId = 0;
     	if(principal !=  null) {//認証前はnull
         Authentication auth = (Authentication)principal;
-        UserInfoOld userInfo = (UserInfoOld)auth.getPrincipal();
+        UserInfo userInfo = (UserInfo)auth.getPrincipal();
         userInfoId = userInfo.getId();
     	}
 
