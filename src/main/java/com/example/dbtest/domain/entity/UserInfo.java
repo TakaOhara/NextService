@@ -104,6 +104,8 @@ public class UserInfo implements UserDetails {
 		this.authority = authority;
 		this.tempkey = tempkey;
 	}
+	
+	
 
 
 

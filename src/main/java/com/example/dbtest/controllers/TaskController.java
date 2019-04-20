@@ -19,22 +19,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dbtest.domain.entity.Task;
 import com.example.dbtest.domain.entity.UserInfo;
+import com.example.dbtest.domain.repositories.UserInfoRepository;
 import com.example.dbtest.domain.service.TaskService;
+import com.example.dbtest.domain.service.UserInfoService;
 
 @Controller
 @RequestMapping("/task")
 public class TaskController {
 
     private final TaskService taskService;
+	private UserInfoRepository userInfoRepository;
 
     @Autowired
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService,UserInfoRepository userInfoRepository) {
         this.taskService = taskService;
+        this.userInfoRepository = userInfoRepository;
     }
 
     //INDEX
     @GetMapping
     public String task(TaskForm taskForm, Model model) {
+    	
+    	System.out.println(userInfoRepository.findById(1).getPassword());
     	
         taskForm.setNewTask(true);
         List<Task> list = taskService.findAll();

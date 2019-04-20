@@ -42,9 +42,10 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+    	http.headers().frameOptions().sameOrigin();
         http.authorizeRequests()
 //                .antMatchers("/", "/register/**").permitAll()
+        
 
                 // antMatchers mvcMatcherを使う
                 .mvcMatchers("/", "/register/**").permitAll()  // **はそれより下の階層全て

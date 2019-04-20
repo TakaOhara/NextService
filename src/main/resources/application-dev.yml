@@ -7,7 +7,11 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password:
-  h2.console.enabled: true
+  h2:
+    console:
+      enabled: true
+  thymeleaf:
+    cache: false
 #  datasource:
 #    url: jdbc:mysql://localhost/spring_additional?characterEncoding=UTF-8&serverTimezone=JST&useSSL=false
 #    username: root
