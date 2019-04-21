@@ -48,7 +48,7 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
         
 
                 // antMatchers mvcMatcherを使う
-                .mvcMatchers("/", "/register/**").permitAll()  // **はそれより下の階層全て
+                .mvcMatchers("/", "/register/**", "/h2-console/**").permitAll()  // **はそれより下の階層全て
                 .anyRequest().authenticated()//それ以外は認証無しでのアクセス不可
                 .and()
                 .formLogin()

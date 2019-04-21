@@ -8,11 +8,6 @@ CREATE TABLE tasks (
   PRIMARY KEY (`id`)
 );
 
--- ,
---CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `task_type` (`id`),
---CONSTRAINT `tasks_usfk_1` FOREIGN KEY (`user_info_id`) REFERENCES `user_info` (`id`)
---
-
 CREATE TABLE task_type (
   id int(2) NOT NULL,
   type varchar(20) NOT NULL,
