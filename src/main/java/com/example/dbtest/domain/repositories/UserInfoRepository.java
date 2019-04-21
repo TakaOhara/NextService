@@ -8,7 +8,6 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
 	
 	UserInfo findById(int id);
 	UserInfo findByEmail(String email);
-	
 	UserInfo findByTempkey(String tempkey);
 
 }

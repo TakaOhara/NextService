@@ -54,7 +54,7 @@ public class Task {
     //@NotEmpty//アノテーションをつけるだけで空の場合例外発生
     private String detail;
 
-    @JoinColumn(name = "deadline")
+    @Column(name = "deadline")
     private LocalDateTime deadline;
     
     //新規insertで使用

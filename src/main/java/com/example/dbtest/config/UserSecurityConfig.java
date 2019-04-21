@@ -33,7 +33,6 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProvider createAuthProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
         authProvider.setUserDetailsService(userInfoService);
         authProvider.setPasswordEncoder(passwordEncoder); // Beanを使う
 
@@ -42,11 +41,9 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	http.headers().frameOptions().sameOrigin();
         http.authorizeRequests()
 //                .antMatchers("/", "/register/**").permitAll()
         
-
                 // antMatchers mvcMatcherを使う
                 .mvcMatchers("/", "/register/**", "/h2-console/**").permitAll()  // **はそれより下の階層全て
                 .anyRequest().authenticated()//それ以外は認証無しでのアクセス不可

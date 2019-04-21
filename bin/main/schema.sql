@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS tasks;
 CREATE TABLE tasks (
   id int(5) NOT NULL AUTO_INCREMENT,
   user_info_id int(5) NOT NULL,
@@ -5,17 +6,17 @@ CREATE TABLE tasks (
   title varchar(50) NOT NULL,
   detail text,
   deadline datetime NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (id)
 );
-
+DROP TABLE IF EXISTS task_type;
 CREATE TABLE task_type (
   id int(2) NOT NULL,
   type varchar(20) NOT NULL,
   comment varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (id)
 );
 
-
+DROP TABLE IF EXISTS user_info;
 CREATE TABLE user_info (
   id int(11) NOT NULL AUTO_INCREMENT,
   username varchar(50) NOT NULL,
@@ -24,8 +25,17 @@ CREATE TABLE user_info (
   enabled boolean NOT NULL,
   authority varchar(50) NOT NULL,
   tempkey varchar(255),
-  
-  
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (id)
 );
+DROP TABLE IF EXISTS profile;
+CREATE TABLE profile (
+  id int(10) NOT NULL AUTO_INCREMENT,
+  user_info_id int(11),
+  nickname VARCHAR(50),
+  image VARCHAR(100),
+  detail text,
+  updated datetime,
+  PRIMARY KEY (id)
+);
+  
 

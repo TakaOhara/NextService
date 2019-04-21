@@ -2,26 +2,28 @@ server:
   port: 8080 # portの指定
 
 spring:
-  datasource:
-    url: jdbc:h2:mem:test
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-  thymeleaf:
-    cache: false
 #  datasource:
-#    url: jdbc:mysql://localhost/spring_additional?characterEncoding=UTF-8&serverTimezone=JST&useSSL=false
-#    username: root
-#    password: password
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    type: com.zaxxer.hikari.HikariDataSource # デフォルト
-#    hikari:
-#      minimum-idle: 5
-#      maximum-pool-size: 20
-#      idle-timeout: 30000
+#    url: jdbc:h2:mem:test
+#    driverClassName: org.h2.Driver
+#    username: sa
+#    password:
+#  h2:
+#    console:
+#      enabled: true
+#  thymeleaf:
+#    cache: false
+
+  datasource:
+    url: jdbc:mysql://localhost/spring_additional2?characterEncoding=UTF-8&serverTimezone=JST&useSSL=false
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-mode: always #data.sql,schema.sqlを強制読み込み jpa.hibernate.ddl-autoとセットで
+    type: com.zaxxer.hikari.HikariDataSource # デフォルト
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 30000
   #    jndi-name: java:hoge/fuga # JNDIを使用する場合
   devtools:
     restart:

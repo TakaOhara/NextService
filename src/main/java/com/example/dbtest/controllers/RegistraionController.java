@@ -1,36 +1,47 @@
 package com.example.dbtest.controllers;
 
-import com.example.dbtest.domain.entity.UserInfo;
-import com.example.dbtest.domain.service.SendVerifyMailService;
-import com.example.dbtest.domain.service.UserInfoService;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-import java.util.UUID;
+import com.example.dbtest.domain.entity.Profile;
+import com.example.dbtest.domain.entity.UserInfo;
+import com.example.dbtest.domain.service.ProfileService;
+import com.example.dbtest.domain.service.SendVerifyMailService;
+import com.example.dbtest.domain.service.UserInfoService;
 
 @Controller
 @RequestMapping("/register")
 public class RegistraionController {
 
     private final UserInfoService userInfoService;
-
+    private final ProfileService profileService;
     private final SendVerifyMailService sendVerifyMailService;
 
     @Autowired
-    public RegistraionController(UserInfoService userInfoService, SendVerifyMailService sendVerifyMailService) {
+    public RegistraionController(UserInfoService userInfoService, 
+    		ProfileService profileService,
+    		SendVerifyMailService sendVerifyMailService) {
         this.userInfoService = userInfoService;
+        this.profileService = profileService;
         this.sendVerifyMailService = sendVerifyMailService;
     }
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
-
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
@@ -82,6 +93,10 @@ public class RegistraionController {
         }
 
         userInfoService.setEnabled(userInfo);
+        Profile prf = new Profile();
+        prf.setUserInfoId(userInfo.getId());
+        prf.setUpdated(LocalDateTime.now());
+        profileService.save(prf);
 
         return "verify";
     }

@@ -19,21 +19,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dbtest.domain.entity.Task;
 import com.example.dbtest.domain.entity.UserInfo;
+import com.example.dbtest.domain.repositories.ProfileRepository;
 import com.example.dbtest.domain.repositories.UserInfoRepository;
 import com.example.dbtest.domain.service.TaskService;
-import com.example.dbtest.domain.service.UserInfoService;
 
 @Controller
 @RequestMapping("/task")
 public class TaskController {
 
     private final TaskService taskService;
+    private final ProfileRepository profileRepository;
 	private UserInfoRepository userInfoRepository;
 
     @Autowired
-    public TaskController(TaskService taskService,UserInfoRepository userInfoRepository) {
+    public TaskController(TaskService taskService,UserInfoRepository userInfoRepository, ProfileRepository profileRepository) {
         this.taskService = taskService;
         this.userInfoRepository = userInfoRepository;
+        this.profileRepository = profileRepository;
     }
 
     //INDEX
@@ -41,6 +43,7 @@ public class TaskController {
     public String task(TaskForm taskForm, Model model) {
     	
     	System.out.println(userInfoRepository.findById(1).getPassword());
+    	//System.out.println("この人のプロフィールのIDは" + profileRepository.findById(1).get().getUserInfoId());
     	
         taskForm.setNewTask(true);
         List<Task> list = taskService.findAll();
