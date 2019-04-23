@@ -9,6 +9,8 @@ import com.example.dbtest.domain.entity.Profile;
 public interface ProfileService {
 
 	List<Profile> findAll();
+	
+	Optional<Profile> findById(int id);
 		
 	Optional<ProfileForm> getProfileForm(int id);
 

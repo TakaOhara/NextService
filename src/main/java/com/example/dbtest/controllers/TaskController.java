@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.dbtest.domain.entity.Task;
 import com.example.dbtest.domain.entity.UserInfo;
 import com.example.dbtest.domain.repositories.ProfileRepository;
-import com.example.dbtest.domain.repositories.UserInfoRepository;
 import com.example.dbtest.domain.service.TaskService;
+import com.example.dbtest.domain.service.UserInfoService;
 
 @Controller
 @RequestMapping("/task")
@@ -29,12 +30,12 @@ public class TaskController {
 
     private final TaskService taskService;
     private final ProfileRepository profileRepository;
-	private UserInfoRepository userInfoRepository;
+	private UserInfoService userInfoService;
 
     @Autowired
-    public TaskController(TaskService taskService,UserInfoRepository userInfoRepository, ProfileRepository profileRepository) {
+    public TaskController(TaskService taskService,UserInfoService userInfoService, ProfileRepository profileRepository) {
         this.taskService = taskService;
-        this.userInfoRepository = userInfoRepository;
+        this.userInfoService = userInfoService;
         this.profileRepository = profileRepository;
     }
 
@@ -42,7 +43,7 @@ public class TaskController {
     @GetMapping
     public String task(TaskForm taskForm, Model model) {
     	
-    	System.out.println(userInfoRepository.findById(1).getPassword());
+    	System.out.println(userInfoService.findById(1).getPassword());
     	//System.out.println("この人のプロフィールのIDは" + profileRepository.findById(1).get().getUserInfoId());
     	
         taskForm.setNewTask(true);
@@ -110,7 +111,7 @@ public class TaskController {
      * UPDATE
      * @param id
      * @param taskForm
-     * @param mav
+     * @param model
      * @return
      */
     @PostMapping(params = "edit")

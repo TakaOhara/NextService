@@ -30,6 +30,11 @@ public class ProfileServiceImpl implements ProfileService {
 	public List<Profile> findAll() {
 		return repository.findAll();
 	}
+	
+	@Override
+	public Optional<Profile> findById(int id){
+		return repository.findById(id);
+	}
 
 	@Override
 	public Optional<ProfileForm> getProfileForm(int id) {

@@ -41,6 +41,10 @@ public class UserInfoService implements UserDetailsService {
 
 		return userInfo;
 	}
+    
+    public UserInfo findById(int id) {
+    	return userInfoRepository.findById(id);
+    }
 
 	public UserInfo findByTempkey(String tempkey) {
     	return userInfoRepository.findByTempkey(tempkey);
