@@ -1,18 +1,27 @@
 package com.example.dbtest.controllers;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Base64;
 import java.util.Optional;
 
-import org.springframework.util.FileCopyUtils;
+import javax.validation.Valid;
+
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dbtest.domain.entity.Profile;
+import com.example.dbtest.domain.entity.Task;
+import com.example.dbtest.domain.entity.UserInfo;
 import com.example.dbtest.domain.service.ProfileService;
 
 @Controller
@@ -62,6 +71,31 @@ public class ProfileController {
         return "profile_old";
     	
     }
+    
+    @PostMapping(name = "edit")
+    public String update(
+        	@Valid @ModelAttribute ProfileForm profileForm,
+        	BindingResult result,
+        	Model model,
+            Principal principal) {
+        	
+        	int userId = 0;
+        	if(principal !=  null) {//認証前はnull
+            	Authentication auth = (Authentication)principal;
+                UserInfo userInfo = (UserInfo)auth.getPrincipal();
+                userId = userInfo.getId();
+            }
+        	
+        	Profile profile = makeProfile(userId, profileForm);
+        	
+            if (!result.hasErrors()) {
+            	profileService.save(task);
+                return "redirect:/task/" + taskForm.getId() + "?complete";
+            } else {
+                model.addAttribute("taskForm", taskForm);
+                model.addAttribute("title", "タスク編集画面");
+                return "task";
+            }
     
 
 }
