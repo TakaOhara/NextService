@@ -66,7 +66,7 @@ public class TaskController {
 //            UserInfo userInfo = (UserInfo)auth.getPrincipal();
 //            userId = userInfo.getId();
 //        }
-    	int userId = userInfoService.getMyId();
+    	int userId = userInfoService.getId();
         Task task = makeTask(userId, taskForm);
         //redirect、失敗したらそのままHTML表示
         if (!result.hasErrors()) {
@@ -131,7 +131,7 @@ public class TaskController {
             return "redirect:/task";
         }
     	
-        int userId = userInfoService.getMyId();
+        int userId = userInfoService.getId();
     	Task task = makeTask(userId, taskForm);
     	
         if (!result.hasErrors()) {

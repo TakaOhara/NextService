@@ -67,7 +67,7 @@ public class UserInfoService implements UserDetailsService {
 	}
 	
 	//ログイン中の会員id(user_infoテーブル)を取得する
-	public int getMyId() {
+	public int getId() {
 		int userId = 0;
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Object principal = authentication.getPrincipal();
