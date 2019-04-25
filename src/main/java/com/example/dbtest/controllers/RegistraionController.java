@@ -18,24 +18,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.dbtest.domain.entity.Profile;
-import com.example.dbtest.domain.entity.UserInfo;
+import com.example.dbtest.domain.entity.User;
 import com.example.dbtest.domain.service.ProfileService;
 import com.example.dbtest.domain.service.SendVerifyMailService;
-import com.example.dbtest.domain.service.UserInfoService;
+import com.example.dbtest.domain.service.UserService;
 
 @Controller
 @RequestMapping("/register")
 public class RegistraionController {
 
-    private final UserInfoService userInfoService;
+    private final UserService userService;
     private final ProfileService profileService;
     private final SendVerifyMailService sendVerifyMailService;
 
     @Autowired
-    public RegistraionController(UserInfoService userInfoService, 
+    public RegistraionController(UserService userService, 
     		ProfileService profileService,
     		SendVerifyMailService sendVerifyMailService) {
-        this.userInfoService = userInfoService;
+        this.userService = userService;
         this.profileService = profileService;
         this.sendVerifyMailService = sendVerifyMailService;
     }
@@ -65,9 +65,9 @@ public class RegistraionController {
 
         // form validation
         if (!result.hasErrors()) {
-            UserInfo userInfo = makeUserInfo(registrationForm);
-            userInfoService.save(userInfo);
-            sendVerifyMailService.execute(userInfo);
+            User user = makeUser(registrationForm);
+            userService.save(user);
+            sendVerifyMailService.execute(user);
 
             mav.setViewName("registration-confirmation");
         } else {
@@ -86,15 +86,15 @@ public class RegistraionController {
     @GetMapping("/verify")
     public String verify(String id) {
 
-        UserInfo userInfo = userInfoService.findByTempkey(id);
+        User user = userService.findByTempkey(id);
 
-        if(userInfo == null || userInfo.isEnabled()) {
+        if(user == null || user.isEnabled()) {
             return "error"; //エラーページへ遷移
         }
 
-        userInfoService.setEnabled(userInfo);
+        userService.setEnabled(user);
         Profile prf = new Profile();
-        prf.setUserInfoId(userInfo.getId());
+        prf.setUserId(user.getId());
         prf.setUpdated(LocalDateTime.now());
         profileService.save(prf);
 
@@ -102,8 +102,8 @@ public class RegistraionController {
     }
 
 
-    private UserInfo makeUserInfo(RegistrationForm registrationForm) {
-        return new UserInfo(registrationForm.getUsername(), registrationForm.getEmail(),
+    private User makeUser(RegistrationForm registrationForm) {
+        return new User(registrationForm.getUsername(), registrationForm.getEmail(),
                 registrationForm.getPassword(), false, "ROLE_USER", UUID.randomUUID().toString());
     }
 

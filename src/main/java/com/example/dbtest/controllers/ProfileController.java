@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dbtest.domain.entity.Profile;
 import com.example.dbtest.domain.entity.Task;
-import com.example.dbtest.domain.entity.UserInfo;
+import com.example.dbtest.domain.entity.User;
 import com.example.dbtest.domain.service.ProfileService;
 
 @Controller
@@ -46,14 +46,14 @@ public class ProfileController {
     @GetMapping
     public String profile (Model model, Principal principal)throws IOException {
     	
-    	int userInfoId = 0;
+    	int userId = 0;
     	if(principal !=  null) {//認証前はnull
         	Authentication auth = (Authentication)principal;
-            UserInfo userInfo = (UserInfo)auth.getPrincipal();
-            userInfoId = userInfo.getId();
+            User userInfo = (User)auth.getPrincipal();
+            userId = userInfo.getId();
         }
     	
-        Optional<ProfileForm> profileForm = profileService.getProfileForm(userInfoId);
+        Optional<ProfileForm> profileForm = profileService.getProfileForm(userId);
         
         model.addAttribute("profileForm", profileForm.get());
         model.addAttribute("title", "マイプロフィール");

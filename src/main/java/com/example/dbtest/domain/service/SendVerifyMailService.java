@@ -1,7 +1,7 @@
 package com.example.dbtest.domain.service;
 
-import com.example.dbtest.domain.entity.UserInfo;
+import com.example.dbtest.domain.entity.User;
 
 public interface SendVerifyMailService {
-    void execute(UserInfo userInfo);
+    void execute(User user);
 }

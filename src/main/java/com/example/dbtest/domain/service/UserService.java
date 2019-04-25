@@ -11,20 +11,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.dbtest.domain.entity.UserInfo;
-import com.example.dbtest.domain.repositories.UserInfoRepository;
+import com.example.dbtest.domain.entity.User;
+import com.example.dbtest.domain.repositories.UserRepository;
 
 @Service("UserInfoService")
-public class UserInfoService implements UserDetailsService {
+public class UserService implements UserDetailsService {
 	
-	private final UserInfoRepository userInfoRepository;
+	private final UserRepository userRepository;
 	
 	private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserInfoService(UserInfoRepository userInfoRepository,
+    public UserService(UserRepository userRepository,
     		BCryptPasswordEncoder passwordEncoder) {
-        this.userInfoRepository = userInfoRepository;
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -36,7 +36,7 @@ public class UserInfoService implements UserDetailsService {
 			throw new UsernameNotFoundException("Username is empty");
 		}
 		
-		UserInfo userInfo = userInfoRepository.findByEmail(email);
+		User userInfo = userRepository.findByEmail(email);
 
 		if(userInfo == null) {
 			throw new UsernameNotFoundException("User not found for email:" + email);
@@ -45,25 +45,25 @@ public class UserInfoService implements UserDetailsService {
 		return userInfo;
 	}
     
-    public UserInfo findById(int id) {
-    	return userInfoRepository.findById(id);
+    public User findById(int id) {
+    	return userRepository.findById(id);
     }
 
-	public UserInfo findByTempkey(String tempkey) {
-    	return userInfoRepository.findByTempkey(tempkey);
+	public User findByTempkey(String tempkey) {
+    	return userRepository.findByTempkey(tempkey);
 	}
 	
 	@Transactional
-	public void save(UserInfo userInfo) {
-		String hushPass = passwordEncoder.encode(userInfo.getPassword());
-		userInfo.setPassword(hushPass);
-		userInfoRepository.save(userInfo);
+	public void save(User user) {
+		String hushPass = passwordEncoder.encode(user.getPassword());
+		user.setPassword(hushPass);
+		userRepository.save(user);
 	}
 
 	@Transactional
-	public void setEnabled(UserInfo userInfo) {
-		userInfo.setEnabled(true);
-		userInfoRepository.save(userInfo);
+	public void setEnabled(User user) {
+		user.setEnabled(true);
+		userRepository.save(user);
 	}
 	
 	//ログイン中の会員id(user_infoテーブル)を取得する
@@ -71,8 +71,8 @@ public class UserInfoService implements UserDetailsService {
 		int userId = 0;
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Object principal = authentication.getPrincipal();
-		if (principal instanceof UserInfo) {
-			userId = ((UserInfo) principal).getId(); // (3)
+		if (principal instanceof User) {
+			userId = ((User) principal).getId(); // (3)
         }
 		return userId;
 

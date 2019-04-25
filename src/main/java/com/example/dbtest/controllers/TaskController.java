@@ -19,29 +19,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dbtest.domain.entity.Task;
-import com.example.dbtest.domain.entity.UserInfo;
+import com.example.dbtest.domain.entity.User;
 import com.example.dbtest.domain.repositories.ProfileRepository;
 import com.example.dbtest.domain.service.TaskService;
-import com.example.dbtest.domain.service.UserInfoService;
+import com.example.dbtest.domain.service.UserService;
 
 @Controller
 @RequestMapping("/task")
 public class TaskController {
 
     private final TaskService taskService;
-	private UserInfoService userInfoService;
+	private UserService userService;
 
     @Autowired
-    public TaskController(TaskService taskService,UserInfoService userInfoService) {
+    public TaskController(TaskService taskService,UserService userService) {
         this.taskService = taskService;
-        this.userInfoService = userInfoService;
+        this.userService = userService;
     }
 
     //INDEX
     @GetMapping
     public String task(TaskForm taskForm, Model model) {
     	
-    	System.out.println(userInfoService.findById(1).getPassword());
+    	System.out.println(userService.findById(1).getPassword());
     	
         taskForm.setNewTask(true);
         List<Task> list = taskService.findAll();
@@ -66,7 +66,7 @@ public class TaskController {
 //            UserInfo userInfo = (UserInfo)auth.getPrincipal();
 //            userId = userInfo.getId();
 //        }
-    	int userId = userInfoService.getId();
+    	int userId = userService.getId();
         Task task = makeTask(userId, taskForm);
         //redirect、失敗したらそのままHTML表示
         if (!result.hasErrors()) {
@@ -131,7 +131,7 @@ public class TaskController {
             return "redirect:/task";
         }
     	
-        int userId = userInfoService.getId();
+        int userId = userService.getId();
     	Task task = makeTask(userId, taskForm);
     	
         if (!result.hasErrors()) {

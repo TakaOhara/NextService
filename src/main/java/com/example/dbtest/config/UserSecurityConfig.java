@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.example.dbtest.domain.service.UserInfoService;
+import com.example.dbtest.domain.service.UserService;
 
 /**
  * Web Security設定ファイル
@@ -22,7 +22,7 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     //@Qualifier("UserInfoService")
-    private UserInfoService userInfoService;
+    private UserService userService;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -33,7 +33,7 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProvider createAuthProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userInfoService);
+        authProvider.setUserDetailsService(userService);
         authProvider.setPasswordEncoder(passwordEncoder); // Beanを使う
 
         return authProvider;

@@ -5,13 +5,13 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.dbtest.domain.entity.UserInfo;
-import com.example.dbtest.domain.repositories.UserInfoRepository;
+import com.example.dbtest.domain.entity.User;
+import com.example.dbtest.domain.repositories.UserRepository;
 
 public class UserInfoExistsValidator implements ConstraintValidator<UserInfoExists, String> {
 
     @Autowired
-    UserInfoRepository userInfoRepository;
+    UserRepository userInfoRepository;
 
     @Override
     public void initialize(UserInfoExists annotation) {

@@ -32,7 +32,7 @@ import lombok.ToString;
 @Table(name="user_info")
 @ToString(of = "id")
 @EqualsAndHashCode(of = "id")
-public class UserInfo implements UserDetails {
+public class User implements UserDetails {
 	
 	/**
 	 * 
@@ -96,7 +96,7 @@ public class UserInfo implements UserDetails {
 		return this.enabled;
 	}
 
-	public UserInfo(String username, String email, String password, Boolean enabled, String authority, String tempkey) {
+	public User(String username, String email, String password, Boolean enabled, String authority, String tempkey) {
 		this.username = username;
 		this.email = email;
 		this.password = password;

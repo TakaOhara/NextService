@@ -30,8 +30,8 @@ public class Community {
     @Column(name = "id")
     private int id;
     
-    @Column(name = "user_info_id")
-    private int user_info_id;
+    @Column(name = "user_id")
+    private int user_id;
     
     @Column(name = "name")
     private String name;

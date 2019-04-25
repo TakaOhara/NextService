@@ -38,8 +38,8 @@ public class Profile{
     @Column(name = "id")
     private int id;
 	
-	@Column(name = "user_info_id")
-	private int userInfoId;
+	@Column(name = "user_id")
+	private int userId;
 	
 	@Column(name = "nickname")
 	private String nickname;

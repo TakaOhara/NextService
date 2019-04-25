@@ -12,7 +12,7 @@ public interface ProfileService {
 	
 	Optional<Profile> findById(int id);
 	
-	Optional<Profile> findByUserInfoId(int id);
+	Optional<Profile> findByUserId(int id);
 		
 	Optional<ProfileForm> getProfileForm(int id);
 

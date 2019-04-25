@@ -38,8 +38,8 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 	
 	@Override
-	public Optional<Profile> findByUserInfoId(int id) {
-		return repository.findByUserInfoId(id);
+	public Optional<Profile> findByUserId(int id) {
+		return repository.findByUserId(id);
 	}
 
 
