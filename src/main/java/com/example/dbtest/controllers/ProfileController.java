@@ -44,11 +44,18 @@ public class ProfileController {
      * @return String
      */
     @GetMapping
-    public String profile (ProfileForm profileForm, Model model)throws IOException {
+    public String profile (Model model, Principal principal)throws IOException {
     	
-        Optional<Profile> profile = profileService.findById(1);
+    	int userInfoId = 0;
+    	if(principal !=  null) {//認証前はnull
+        	Authentication auth = (Authentication)principal;
+            UserInfo userInfo = (UserInfo)auth.getPrincipal();
+            userInfoId = userInfo.getId();
+        }
+    	
+        Optional<ProfileForm> profileForm = profileService.getProfileForm(userInfoId);
         
-        model.addAttribute("profile", profile.get());
+        model.addAttribute("profileForm", profileForm.get());
         model.addAttribute("title", "マイプロフィール");
         
 		// 1. resourcesにあるdog.jpgを取得
@@ -72,30 +79,29 @@ public class ProfileController {
     	
     }
     
-    @PostMapping(name = "edit")
-    public String update(
-        	@Valid @ModelAttribute ProfileForm profileForm,
-        	BindingResult result,
-        	Model model,
-            Principal principal) {
-        	
-        	int userId = 0;
-        	if(principal !=  null) {//認証前はnull
-            	Authentication auth = (Authentication)principal;
-                UserInfo userInfo = (UserInfo)auth.getPrincipal();
-                userId = userInfo.getId();
-            }
-        	
-        	Profile profile = makeProfile(userId, profileForm);
-        	
-            if (!result.hasErrors()) {
-            	profileService.save(task);
-                return "redirect:/task/" + taskForm.getId() + "?complete";
-            } else {
-                model.addAttribute("taskForm", taskForm);
-                model.addAttribute("title", "タスク編集画面");
-                return "task";
-            }
-    
-
+//    @PostMapping(name = "edit")
+//    public String update(
+//        	@Valid @ModelAttribute ProfileForm profileForm,
+//        	BindingResult result,
+//        	Model model,
+//            Principal principal) {
+//        	
+//        	int userId = 0;
+//        	if(principal !=  null) {//認証前はnull
+//            	Authentication auth = (Authentication)principal;
+//                UserInfo userInfo = (UserInfo)auth.getPrincipal();
+//                userId = userInfo.getId();
+//            }
+//        	
+//        	Profile profile = makeProfile(userId, profileForm);
+//        	
+//            if (!result.hasErrors()) {
+//            	profileService.save(profile);
+//                return "redirect:/profile";
+//            } else {
+//                model.addAttribute("profileForm", profileForm);
+//                model.addAttribute("title", "プロフィール");
+//                return "task";
+//            }
+//    
 }

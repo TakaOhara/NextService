@@ -3,6 +3,8 @@ package com.example.dbtest.domain.service;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,7 +22,8 @@ public class UserInfoService implements UserDetailsService {
 	private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserInfoService(UserInfoRepository userInfoRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserInfoService(UserInfoRepository userInfoRepository,
+    		BCryptPasswordEncoder passwordEncoder) {
         this.userInfoRepository = userInfoRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -61,6 +64,18 @@ public class UserInfoService implements UserDetailsService {
 	public void setEnabled(UserInfo userInfo) {
 		userInfo.setEnabled(true);
 		userInfoRepository.save(userInfo);
+	}
+	
+	//ログイン中の会員id(user_infoテーブル)を取得する
+	public int getMyId() {
+		int userId = 0;
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Object principal = authentication.getPrincipal();
+		if (principal instanceof UserInfo) {
+			userId = ((UserInfo) principal).getId(); // (3)
+        }
+		return userId;
+
 	}
 
 }

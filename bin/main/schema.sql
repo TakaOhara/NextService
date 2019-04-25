@@ -37,5 +37,13 @@ CREATE TABLE profile (
   updated datetime,
   PRIMARY KEY (id)
 );
-  
+DROP TABLE IF EXISTS community;
+CREATE TABLE community (
+  id int(10) NOT NULL AUTO_INCREMENT,
+  user_info_id int(10),
+  name VARCHAR(50),
+  detail text,
+  created datetime,
+  PRIMARY KEY (id)
+);  
 

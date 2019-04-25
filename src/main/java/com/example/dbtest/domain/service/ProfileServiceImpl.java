@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dbtest.controllers.ProfileForm;
+import com.example.dbtest.controllers.TaskForm;
 import com.example.dbtest.domain.entity.Profile;
 import com.example.dbtest.domain.entity.Task;
 import com.example.dbtest.domain.repositories.ProfileRepository;
@@ -35,17 +36,23 @@ public class ProfileServiceImpl implements ProfileService {
 	public Optional<Profile> findById(int id){
 		return repository.findById(id);
 	}
+	
+	@Override
+	public Optional<Profile> findByUserInfoId(int id) {
+		return repository.findByUserInfoId(id);
+	}
+
 
 	@Override
 	public Optional<ProfileForm> getProfileForm(int id) {
-		Optional<Profile> profile = repository.findById(id);
+		Optional<Profile> profile = repository.findByUserInfoId(id);
 
 		if(!profile.isPresent()) {
 			return Optional.empty(); // emptyを使うのが望ましいです
 		}
         // mapを使ってスマートに記述
 		return profile.map(prf ->//1ラムダ式　taskは保持する実際の値
-                new ProfileForm(prf.getNickname(), prf.getImage(), prf.getDetail(), prf.getUpdated()));
+                new ProfileForm(prf.getId(), prf.getNickname(), prf.getImage(), prf.getDetail(), prf.getUpdated()));
 	}
 
 	@Override
@@ -61,4 +68,6 @@ public class ProfileServiceImpl implements ProfileService {
 			repository.deleteById(id);
 		}
 	}
+
+
 }

@@ -29,14 +29,12 @@ import com.example.dbtest.domain.service.UserInfoService;
 public class TaskController {
 
     private final TaskService taskService;
-    private final ProfileRepository profileRepository;
 	private UserInfoService userInfoService;
 
     @Autowired
-    public TaskController(TaskService taskService,UserInfoService userInfoService, ProfileRepository profileRepository) {
+    public TaskController(TaskService taskService,UserInfoService userInfoService) {
         this.taskService = taskService;
         this.userInfoService = userInfoService;
-        this.profileRepository = profileRepository;
     }
 
     //INDEX
@@ -44,7 +42,6 @@ public class TaskController {
     public String task(TaskForm taskForm, Model model) {
     	
     	System.out.println(userInfoService.findById(1).getPassword());
-    	//System.out.println("この人のプロフィールのIDは" + profileRepository.findById(1).get().getUserInfoId());
     	
         taskForm.setNewTask(true);
         List<Task> list = taskService.findAll();
@@ -63,13 +60,13 @@ public class TaskController {
         Model model,
         Principal principal) {
     	
-    	int userId = 0;
-    	if(principal !=  null) {//認証前はnull
-        	Authentication auth = (Authentication)principal;
-            UserInfo userInfo = (UserInfo)auth.getPrincipal();
-            userId = userInfo.getId();
-        }
-
+//    	int userId = 0;
+//    	if(principal !=  null) {//認証前はnull
+//        	Authentication auth = (Authentication)principal;
+//            UserInfo userInfo = (UserInfo)auth.getPrincipal();
+//            userId = userInfo.getId();
+//        }
+    	int userId = userInfoService.getMyId();
         Task task = makeTask(userId, taskForm);
         //redirect、失敗したらそのままHTML表示
         if (!result.hasErrors()) {
@@ -89,7 +86,6 @@ public class TaskController {
     //Before UPDATE
     @GetMapping("/{id}")//編集ページ
     public String showUpdate(
-    	TaskForm taskForm,//いらない？
         @PathVariable Integer id,
         Model model) {
 
@@ -121,12 +117,12 @@ public class TaskController {
     	Model model,
         Principal principal) {
     	
-    	int userId = 0;
-    	if(principal !=  null) {//認証前はnull
-        	Authentication auth = (Authentication)principal;
-            UserInfo userInfo = (UserInfo)auth.getPrincipal();
-            userId = userInfo.getId();
-        }
+//    	int userId = 0;
+//    	if(principal !=  null) {//認証前はnull
+//        	Authentication auth = (Authentication)principal;
+//            UserInfo userInfo = (UserInfo)auth.getPrincipal();
+//            userId = userInfo.getId();
+//        }
     	
     	//isNewTaskにfalseが代入される
         Optional<TaskForm> form = taskService.getTaskForm(taskForm.getId());
@@ -135,6 +131,7 @@ public class TaskController {
             return "redirect:/task";
         }
     	
+        int userId = userInfoService.getMyId();
     	Task task = makeTask(userId, taskForm);
     	
         if (!result.hasErrors()) {

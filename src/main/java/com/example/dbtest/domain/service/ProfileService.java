@@ -11,6 +11,8 @@ public interface ProfileService {
 	List<Profile> findAll();
 	
 	Optional<Profile> findById(int id);
+	
+	Optional<Profile> findByUserInfoId(int id);
 		
 	Optional<ProfileForm> getProfileForm(int id);
 

@@ -14,6 +14,7 @@ public class ProfileForm implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private int id;
     private String nickname;
     private String image;
     private String detail;

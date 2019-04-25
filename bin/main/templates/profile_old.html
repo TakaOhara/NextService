@@ -7,19 +7,20 @@
 <body>
 <h1 th:text="${title}">ようこそ</h1>
 
-<form method="POST" th:action="@{/profile/update}"  th:object="${profile}">
+<form method="POST" th:action="@{/profile}"  th:object="${profileForm}">
 
-	<label>ニックネーム</label>
+	<label>ニックネーム</label><br>
 	<input type="text" name="nickname" th:value="*{nickname}" />
-	<div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></div>
-	<img th:src="${'data:image/png;base64,' + image}"/>
-	<label>詳細</label>
-	<textarea name="detail" rows="4" cols="40"  th:field="*{detail}">ここに感想を記入してください。</textarea>
+	<div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></div><br>
+	<img th:src="${'data:image/png;base64,' + image}"/><br>
+	<label>詳細</label><br>
+	<textarea name="detail" rows="4" cols="40"  th:field="*{detail}">ここに感想を記入してください。</textarea><br>
 	<div th:if="${#fields.hasErrors('detail')}" 
 	th:errors="*{deadline}"></div>
 	<label>前回修正日時</label>
 	<p  th:text="*{updated}"></p>
-	<input type="submit" value="変更">
+	<input type="hidden" name="id" value="*{id}"> 
+	<input type="submit" name="edit" value="変更">
 </form>
 <p><a href="#" th:href="@{/task}">戻る</a></p>
 

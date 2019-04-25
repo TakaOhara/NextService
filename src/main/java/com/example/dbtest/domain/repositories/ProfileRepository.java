@@ -10,5 +10,6 @@ import com.example.dbtest.domain.entity.Profile;
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
 	Optional<Profile> findById(int id);
+	Optional<Profile> findByUserInfoId(int id);
 	void deleteById(int id);
 }
