@@ -1,5 +1,5 @@
 --Eメールは「example@example.com」、パスワードは「password」
-INSERT INTO user_info VALUES(NULL ,'John', 'example@example.com', '$2a$08$dSbk7S1tzk9I8CDB0mr6CO7ndTkTdC9/nojADBiukhWVBgHqR/g46',true, 'something','temp');
+INSERT INTO user VALUES(NULL ,'John', 'example@example.com', '$2a$08$dSbk7S1tzk9I8CDB0mr6CO7ndTkTdC9/nojADBiukhWVBgHqR/g46',true, 'something','temp');
 
 --profileテーブル
 INSERT INTO profile VALUES(NULL, 1, 'なごやん', 'dog.jpg', 'java歴10年', '2019-04-23');

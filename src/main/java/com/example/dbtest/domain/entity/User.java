@@ -29,7 +29,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="user_info")
+@Table(name="user")
 @ToString(of = "id")
 @EqualsAndHashCode(of = "id")
 public class User implements UserDetails {

@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dbtest.controllers.ProfileForm;
-import com.example.dbtest.controllers.TaskForm;
 import com.example.dbtest.domain.entity.Profile;
-import com.example.dbtest.domain.entity.Task;
 import com.example.dbtest.domain.repositories.ProfileRepository;
 
 @Service
@@ -45,7 +43,7 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	public Optional<ProfileForm> getProfileForm(int id) {
-		Optional<Profile> profile = repository.findByUserInfoId(id);
+		Optional<Profile> profile = repository.findByUserId(id);
 
 		if(!profile.isPresent()) {
 			return Optional.empty(); // emptyを使うのが望ましいです

@@ -46,4 +46,5 @@ CREATE TABLE community (
   created datetime,
   PRIMARY KEY (id)
 );  
+DROP TABLE IF EXISTS user_info;
 
